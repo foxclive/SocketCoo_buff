@@ -2,11 +2,16 @@
 //
 
 #include "pch.h"
-#include <iostream>
+//#include <iostream>
+#include "SocketServer_Bufferevent.h"
+
 
 int main()
 {
-    std::cout << "Hello World!\n"; 
+	SocketServer_Bufferevent * ss = new SocketServer_Bufferevent();
+	ss = NULL;
+	free(ss);
+    //std::cout << "Hello World!\n"; 
 }
 
 // 运行程序: Ctrl + F5 或调试 >“开始执行(不调试)”菜单
