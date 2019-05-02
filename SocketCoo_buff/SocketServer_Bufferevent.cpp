@@ -26,8 +26,7 @@ SocketServer_Bufferevent::SocketServer_Bufferevent()
 		(struct sockaddr*)&serverAddr, sizeof(serverAddr));
 	
 	event_base_dispatch(base);
-	evconnlistener_free(listener);
-	event_base_free(base);
+
 }
 
 void SocketServer_Bufferevent::listener_cb(struct evconnlistener *, evutil_socket_t fd, struct sockaddr * sockaddr, int socklen, void * data)
@@ -47,14 +46,10 @@ void SocketServer_Bufferevent::listener_cb(struct evconnlistener *, evutil_socke
 void SocketServer_Bufferevent::read_cb(bufferevent *, void * bev)
 {
 	//read callback
-	char tmp[255];
-	string * recvInfo= new string();
+	char tmp[255] = {0};
 	bufferevent *b = (bufferevent*)bev;
-	bufferevent_read(b, tmp, sizeof(tmp));
-	cout << recvInfo->data() << endl;
+	bufferevent_read(b, tmp, size(tmp));
 	cout << tmp << endl;
-	recvInfo->clear();
-	*tmp = { 0 };
 }
 
 
@@ -72,4 +67,8 @@ void SocketServer_Bufferevent::event_cb(struct bufferevent *bev, short events, v
 
 SocketServer_Bufferevent::~SocketServer_Bufferevent()
 {
+	
+	WSACleanup();
+	evconnlistener_free(listener);
+	event_base_free(base);
 }
